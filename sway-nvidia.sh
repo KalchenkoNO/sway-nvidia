@@ -14,6 +14,14 @@ if [ "x$XDG_SESSION_TYPE" = "xwayland" ] &&
   fi
 fi
 
+PREFIX=""
+
+if command -v dbus-run-session &> /dev/null
+then
+    PREFIX=dbus-run-session
+fi
+
+
 # Source environment files
 for n in "/usr/share" "/usr/local/share"; do
   [ -f "$n/wlroots-nvidia/wlroots-env-nvidia.sh" ] && . "$n/wlroots-nvidia/wlroots-env-nvidia.sh"
@@ -21,4 +29,4 @@ for n in "/usr/share" "/usr/local/share"; do
 done
 
 # noscanout fixes this issue: https://www.reddit.com/r/swaywm/comments/wiq06i/games_have_lines_on_screen_when_fullscreen_on/
-exec sway --unsupported-gpu -D noscanout "$@"
+exec $PREFIX sway --unsupported-gpu -D noscanout "$@"
